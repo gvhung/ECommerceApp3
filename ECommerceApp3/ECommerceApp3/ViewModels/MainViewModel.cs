@@ -14,7 +14,7 @@ namespace ECommerceApp3.ViewModels
         #region Construtores
         public MainViewModel()
         {
-            Menu = new ObservableCollection<MenuItemViewModel>();
+            Menu = new ObservableCollection<MenuItemViewModel>(); 
             LoadMenu();
         }
 
