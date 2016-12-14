@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿
+
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ECommerceApp3.ViewModels
 {
@@ -17,6 +14,7 @@ namespace ECommerceApp3.ViewModels
         #region Construtores
         public MainViewModel()
         {
+            Menu = new ObservableCollection<MenuItemViewModel>();
             LoadMenu();
         }
 
@@ -51,7 +49,7 @@ namespace ECommerceApp3.ViewModels
             });
             Menu.Add(new MenuItemViewModel
             {
-                Icon = "ic_action_snyc.png",
+                Icon = "ic_action_sync.png",
                 PageName = "SyncPage",
                 Title = "Sincronizar"
 
