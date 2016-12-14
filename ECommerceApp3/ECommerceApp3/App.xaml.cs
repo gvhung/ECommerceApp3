@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using ECommerceApp3.Pages;
+﻿using ECommerceApp3.Pages;
 using Xamarin.Forms;
 
 namespace ECommerceApp3

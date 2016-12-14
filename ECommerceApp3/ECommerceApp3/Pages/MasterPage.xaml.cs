@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿
 using Xamarin.Forms;
 
 namespace ECommerceApp3.Pages
@@ -12,7 +7,7 @@ namespace ECommerceApp3.Pages
     {
         public MasterPage()
         {
-            InitializeComponent();
+            InitializeComponent();            
         }
 
 
@@ -20,6 +15,8 @@ namespace ECommerceApp3.Pages
         {
             base.OnAppearing();
             App.Navigator = Navigator;
+
+            
         }
 
     }
