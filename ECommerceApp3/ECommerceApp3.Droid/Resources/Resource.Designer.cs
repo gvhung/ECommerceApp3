@@ -3532,6 +3532,9 @@ namespace ECommerceApp3.Droid
 			// aapt resource value: 0x7f0a001a
 			public const int CardView_Light = 2131361818;
 			
+			// aapt resource value: 0x7f0a0172
+			public const int MainTheme = 2131362162;
+			
 			// aapt resource value: 0x7f0a0032
 			public const int Platform_AppCompat = 2131361842;
 			

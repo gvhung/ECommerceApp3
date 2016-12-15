@@ -1,4 +1,5 @@
 ﻿
+using System;
 using Xamarin.Forms;
 
 namespace ECommerceApp3.Pages
@@ -7,7 +8,7 @@ namespace ECommerceApp3.Pages
     {
         public MasterPage()
         {
-            InitializeComponent();            
+            InitializeComponent();          
         }
 
 
@@ -17,7 +18,10 @@ namespace ECommerceApp3.Pages
             App.Master = this;
             App.Navigator = Navigator;
 
-            
+
+            // Initial navigation, this can be used for our home page
+
+
         }
 
     }

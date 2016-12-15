@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using ECommerceApp3.Pages;
 
 namespace ECommerceApp3.Services
@@ -35,6 +36,11 @@ namespace ECommerceApp3.Services
                     break;
             }
 
+        }
+
+        internal void SetMainPage()
+        {
+            App.Current.MainPage = new MasterPage();
         }
     }
 }
