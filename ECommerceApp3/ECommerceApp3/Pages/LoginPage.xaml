@@ -36,6 +36,7 @@
     </BoxView>
     <Entry
       Text="{Binding User, Mode=TwoWay}"
+      Keyboard="Email"
       Placeholder="Usuário"
       TextColor="{StaticResource MainColor}" >
     </Entry>
@@ -52,6 +53,11 @@
       HorizontalOptions="Center"
       VerticalOptions="Center">
     </Button>
+    <ActivityIndicator
+      IsRunning="{Binding IsRunning}">
+
+
+    </ActivityIndicator>
     <StackLayout
       Orientation="Horizontal"
       HorizontalOptions="Center">
