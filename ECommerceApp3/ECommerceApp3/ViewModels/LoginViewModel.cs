@@ -20,12 +20,13 @@ namespace ECommerceApp3.ViewModels
 
         #endregion
 
-        #region Eventos
+        #region Events
 
         public event PropertyChangedEventHandler PropertyChanged;
 
         #endregion
-        #region Contrutores
+
+        #region Contructors
         public LoginViewModel()
         {
             navigationService = new NavigationService();
@@ -35,7 +36,7 @@ namespace ECommerceApp3.ViewModels
         }
         #endregion
 
-        #region propriedades
+        #region Properties
         public string User { get; set; }
 
         public string Password { get; set; }
@@ -50,10 +51,12 @@ namespace ECommerceApp3.ViewModels
                 {
                     isRunning = value;
 
-                    if (PropertyChanged != null)
-                    {
-                        PropertyChanged(this, new PropertyChangedEventArgs("IsRunning"));
-                    }
+                    //if (PropertyChanged != null)
+                    //{
+                    //    PropertyChanged(this, new PropertyChangedEventArgs("IsRunning"));
+                    //}
+                    //Mesma Coisa cógido acima
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("IsRunning"));
                 }
             }
             get
