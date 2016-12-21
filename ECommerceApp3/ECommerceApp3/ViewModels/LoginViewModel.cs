@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using ECommerceApp3.Models;
 using ECommerceApp3.Services;
 using GalaSoft.MvvmLight.Command;
 
@@ -17,6 +18,7 @@ namespace ECommerceApp3.ViewModels
         private DialogService dialogService;
         private ApiService apiService;
         private bool isRunning;
+        private DataService dataService;
 
         #endregion
 
@@ -32,6 +34,8 @@ namespace ECommerceApp3.ViewModels
             navigationService = new NavigationService();
             dialogService = new DialogService();
             apiService = new ApiService();
+            dataService = new DataService();
+
             IsRemembered = true;
         }
         #endregion
@@ -85,13 +89,21 @@ namespace ECommerceApp3.ViewModels
             IsRunning = true;
             var response = await apiService.Login(User, Password);
             IsRunning = false;
+
             if (!response.IsSucess)
             {
                 await dialogService.ShowMessage("Error", response.Message);
                 return;
 
             }
-            navigationService.SetMainPage();
+
+            //Banco de Dados
+            var user = (User)response.Result;
+            user.IsRemembered = IsRemembered;
+            user.Password = Password;
+            dataService.InsertUser(user);
+
+            navigationService.SetMainPage(user);
         }
         #endregion
     }

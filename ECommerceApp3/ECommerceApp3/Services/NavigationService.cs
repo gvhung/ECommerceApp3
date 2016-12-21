@@ -1,10 +1,23 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
+using ECommerceApp3.Models;
 using ECommerceApp3.Pages;
 
 namespace ECommerceApp3.Services
 {
     public class NavigationService
     {
+        #region Atributos
+        private DataService dataService;
+        #endregion
+
+        #region Construtores
+        public NavigationService()
+        {
+            dataService = new DataService();
+        }
+        #endregion
+
         public async Task Navigate(string pageName)
         {
             App.Master.IsPresented = false;
@@ -31,14 +44,32 @@ namespace ECommerceApp3.Services
                 case "UserPage":
                     await App.Navigator.PushAsync(new UserPage());
                     break;
+                case "LogoutPage":
+                    Logout();
+                    break;
+
                 default:
                     break;
             }
 
         }
 
-        internal void SetMainPage()
+        internal User GetCurrentUser()
         {
+            return App.CurrentUser;
+        }
+
+        private void Logout()
+        {
+            App.CurrentUser.IsRemembered = false;
+            dataService.UpdateUser(App.CurrentUser);
+            App.Current.MainPage = new LoginPage();
+
+        }
+
+        internal void SetMainPage(User user)
+        {
+            App.CurrentUser = user;
             App.Current.MainPage = new MasterPage();
         }
     }

@@ -1,15 +1,25 @@
 ﻿
 
+using System;
 using System.Collections.ObjectModel;
+using ECommerceApp3.Services;
 
 namespace ECommerceApp3.ViewModels
 {
     public class MainViewModel
     {
+        #region Atributos
+
+        private DataService dataService;
+
+        #endregion
+
         #region Propriedades
         public ObservableCollection<MenuItemViewModel> Menu { get; set; }
 
         public LoginViewModel NewLogin { get; set; }
+
+        public UserViewModel UserLoged { get; set; }
         #endregion
 
         #region Construtores
@@ -17,12 +27,26 @@ namespace ECommerceApp3.ViewModels
         {
             Menu = new ObservableCollection<MenuItemViewModel>();
             NewLogin = new LoginViewModel();
+            UserLoged = new UserViewModel();
+            dataService = new DataService();
             LoadMenu();
+            LoadUser();
         }
+
+
 
         #endregion
 
         #region Metodos
+
+        private void LoadUser()
+        {
+            var user = dataService.GetUser();
+            UserLoged.FullName = user.FullName;
+        }
+
+
+
         private void LoadMenu()
         {
             Menu.Add(new MenuItemViewModel

@@ -24,6 +24,13 @@ namespace ECommerceApp3.Models
         public bool IsCustomer { get; set; }
         public bool IsSupplier { get; set; }
 
+        public bool IsRemembered { get; set; }
+
+        public string Password { get; set; }
+
+
+        //apenas leitura
+        public string FullName { get { return string.Format("{0} {1}", FirstName, LastName); } }
         [ManyToOne]
         public Company Company { get; set; }
 

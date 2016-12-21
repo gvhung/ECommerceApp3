@@ -2,11 +2,31 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="ECommerceApp3.Pages.UserPage"
-                Title="Usuario Page"
+             Title="Usuario Page"
              BackgroundColor="{StaticResource BackgroundColor}"
              BindingContext="{Binding Main, Source={StaticResource Locator}}">
-  <Label Text="User Page"
-         TextColor="{StaticResource FontColor}"
-         VerticalOptions="Center"
-         HorizontalOptions="Center" />
+  <!--<StackLayout
+    BindingContext="{Binding UserLoged}"
+    VerticalOptions="CenterAndExpand"
+    Spacing="10"
+    Padding="8" >
+    <Label Text="Bem vindo"
+           FontSize="18"
+           FontAttributes="Bold"
+           TextColor="{StaticResource AccentColor}"
+           VerticalOptions="Center"
+           HorizontalOptions="Center" />
+    
+    <Label Text="{Binding FullName}"
+               FontSize="24"
+               FontAttributes="Bold"
+               TextColor="{StaticResource FontColor}"
+               VerticalOptions="Center"
+               HorizontalOptions="Center" />
+
+  </StackLayout>-->
+
+  <Label Text="TESTWE">
+    
+  </Label>
 </ContentPage>

@@ -5,22 +5,39 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Xamarin.Forms;
+using ECommerceApp3.Services;
+using ECommerceApp3.Models;
 
 namespace ECommerceApp3
 {
     public partial class App : Application
     {
-        #region Propriedades
-        public static NavigationPage Navigator { get; internal set; }
-        public static MasterPage Master { get; internal set; } 
+        #region Atributes
+
+        private DataService dataService;
         #endregion
 
-        #region Construtores
+        #region Propriedades
+        public static NavigationPage Navigator { get; internal set; }
+        public static MasterPage Master { get; internal set; }
+        public static User CurrentUser { get; internal set; }
+        #endregion
+
+        #region Constructors
         public App()
         {
             InitializeComponent();
-            MainPage = new LoginPage();
-           
+            dataService = new DataService();
+            var user = dataService.GetUser();
+            if (user != null && user.IsRemembered)
+            {
+                App.CurrentUser = user;
+                MainPage = new MasterPage();
+            }
+            else
+            {
+                MainPage = new LoginPage();
+            }
 
         }
         #endregion
@@ -40,7 +57,7 @@ namespace ECommerceApp3
         protected override void OnResume()
         {
             // Handle when your app resumes
-        } 
+        }
         #endregion
     }
 }
