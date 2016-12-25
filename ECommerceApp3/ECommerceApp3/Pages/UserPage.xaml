@@ -5,7 +5,7 @@
              Title="Usuario Page"
              BackgroundColor="{StaticResource BackgroundColor}"
              BindingContext="{Binding Main, Source={StaticResource Locator}}">
-  <!--<StackLayout
+  <StackLayout
     BindingContext="{Binding UserLoged}"
     VerticalOptions="CenterAndExpand"
     Spacing="10"
@@ -24,9 +24,6 @@
                VerticalOptions="Center"
                HorizontalOptions="Center" />
 
-  </StackLayout>-->
+  </StackLayout>
 
-  <Label Text="TESTWE">
-    
-  </Label>
 </ContentPage>

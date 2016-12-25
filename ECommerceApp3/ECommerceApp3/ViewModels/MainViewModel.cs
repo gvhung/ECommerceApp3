@@ -42,7 +42,10 @@ namespace ECommerceApp3.ViewModels
         private void LoadUser()
         {
             var user = dataService.GetUser();
-            UserLoged.FullName = user.FullName;
+            if (user != null)
+                UserLoged.FullName = user.FullName;
+            else
+                UserLoged.FullName = "User NULO";
         }
 
 
