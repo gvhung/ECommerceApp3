@@ -25,10 +25,20 @@ namespace ECommerceApp3.ViewModels
         #region Construtores
         public MainViewModel()
         {
+            //Singleton
+            instance = this;
+
+            //Create observable collection
             Menu = new ObservableCollection<MenuItemViewModel>();
+
+            //Create views
             NewLogin = new LoginViewModel();
             UserLoged = new UserViewModel();
+
+            //Instance services
             dataService = new DataService();
+
+            //Load data
             LoadMenu();
             LoadUser();
         }
@@ -37,15 +47,40 @@ namespace ECommerceApp3.ViewModels
 
         #endregion
 
+        #region Singleton
+
+        static MainViewModel instance;
+
+        public static MainViewModel GetInstance()
+        {
+            if (instance == null)
+            {
+                instance = new MainViewModel();
+            }
+
+            return instance;
+        }
+
+        #endregion
+
+
         #region Metodos
 
         private void LoadUser()
         {
             var user = dataService.GetUser();
             if (user != null)
+            {
                 UserLoged.FullName = user.FullName;
+                UserLoged.Photo = user.PhotoFullPath;                
+            }
             else
+            {
                 UserLoged.FullName = "User NULO";
+                UserLoged.Photo = "Sem Photo";
+
+            }
+
         }
 
 

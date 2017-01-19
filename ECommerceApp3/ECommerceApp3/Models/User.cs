@@ -31,6 +31,9 @@ namespace ECommerceApp3.Models
 
         //apenas leitura
         public string FullName { get { return string.Format("{0} {1}", FirstName, LastName); } }
+
+        public string PhotoFullPath { get { return string.Format("http://zulu-software.com/ECommerce{0}", Photo.Substring(1)); } }
+
         [ManyToOne]
         public Company Company { get; set; }
 

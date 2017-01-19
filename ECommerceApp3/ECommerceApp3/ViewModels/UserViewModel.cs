@@ -10,6 +10,8 @@ namespace ECommerceApp3.ViewModels
     {
         #region Atributos
         public string FullName { get; set; }
+
+        public string Photo { get; set; }
         #endregion
     }
 }
