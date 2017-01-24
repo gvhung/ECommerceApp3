@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using ECommerceApp3.Models;
 using ECommerceApp3.Pages;
+using ECommerceApp3.ViewModels;
 
 namespace ECommerceApp3.Services
 {
@@ -69,6 +70,10 @@ namespace ECommerceApp3.Services
 
         internal void SetMainPage(User user)
         {
+            //Carregando usuario Atual, e não mais o user antigo.
+            var mainViewModel = MainViewModel.GetInstance();
+            mainViewModel.LoadUser(user);
+
             App.CurrentUser = user;
             App.Current.MainPage = new MasterPage();
         }

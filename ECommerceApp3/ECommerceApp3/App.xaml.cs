@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Xamarin.Forms;
 using ECommerceApp3.Services;
 using ECommerceApp3.Models;
+using ECommerceApp3.ViewModels;
 
 namespace ECommerceApp3
 {
@@ -27,10 +28,16 @@ namespace ECommerceApp3
         public App()
         {
             InitializeComponent();
+
+
+            //Teresar mode
             dataService = new DataService();
             var user = dataService.GetUser();
             if (user != null && user.IsRemembered)
             {
+                var mainViewModel = MainViewModel.GetInstance();
+                mainViewModel.LoadUser(user);
+
                 App.CurrentUser = user;
                 MainPage = new MasterPage();
             }

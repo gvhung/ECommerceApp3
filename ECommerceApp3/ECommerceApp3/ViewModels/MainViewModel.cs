@@ -2,6 +2,7 @@
 
 using System;
 using System.Collections.ObjectModel;
+using ECommerceApp3.Models;
 using ECommerceApp3.Services;
 
 namespace ECommerceApp3.ViewModels
@@ -12,10 +13,14 @@ namespace ECommerceApp3.ViewModels
 
         private DataService dataService;
 
+        private ApiService apiService;
         #endregion
 
         #region Propriedades
         public ObservableCollection<MenuItemViewModel> Menu { get; set; }
+
+        //Usando em telas como exemplo:     ItemsSource="{Binding Products}"
+        public ObservableCollection<ProductItemViewModel> Products { get; set; }
 
         public LoginViewModel NewLogin { get; set; }
 
@@ -30,6 +35,7 @@ namespace ECommerceApp3.ViewModels
 
             //Create observable collection
             Menu = new ObservableCollection<MenuItemViewModel>();
+            Products = new ObservableCollection<ProductItemViewModel>();
 
             //Create views
             NewLogin = new LoginViewModel();
@@ -37,10 +43,12 @@ namespace ECommerceApp3.ViewModels
 
             //Instance services
             dataService = new DataService();
+            apiService = new ApiService();
 
             //Load data
             LoadMenu();
-            LoadUser();
+            // LoadUser();
+            LoadProducts();
         }
 
 
@@ -49,7 +57,7 @@ namespace ECommerceApp3.ViewModels
 
         #region Singleton
 
-        static MainViewModel instance;
+        private static MainViewModel instance;
 
         public static MainViewModel GetInstance()
         {
@@ -63,27 +71,35 @@ namespace ECommerceApp3.ViewModels
 
         #endregion
 
-
         #region Metodos
 
-        private void LoadUser()
+        public void LoadUser(User user)
         {
-            var user = dataService.GetUser();
             if (user != null)
             {
                 UserLoged.FullName = user.FullName;
-                UserLoged.Photo = user.PhotoFullPath;                
+                UserLoged.Photo = user.PhotoFullPath;
             }
             else
             {
                 UserLoged.FullName = "User NULO";
                 UserLoged.Photo = "Sem Photo";
-
             }
 
+            //var user = dataService.GetUser();
+            //if (user != null)
+            //{
+            //    UserLoged.FullName = user.FullName;
+            //    UserLoged.Photo = user.PhotoFullPath;
+            //}
+            //else
+            //{
+            //    UserLoged.FullName = "User NULO";
+            //    UserLoged.Photo = "Sem Photo";
+
+            //}
+
         }
-
-
 
         private void LoadMenu()
         {
@@ -134,6 +150,36 @@ namespace ECommerceApp3.ViewModels
             });
         }
 
+
+        private async void LoadProducts()
+        {
+            var products = await apiService.GetProducts();
+
+            Products.Clear();
+            foreach (var product in products)
+            {
+                Products.Add(new ProductItemViewModel
+                {
+                    BarCode = product.BarCode,
+                    Category = product.Category,
+                    CategoryId = product.CategoryId,
+                    Company = product.Company,
+                    CompanyId = product.CompanyId,
+                    Description = product.Description,
+                    Image = product.Image,
+                    Inventories = product.Inventories,
+                    OrderDetails = product.OrderDetails,
+                    OrderDetailTmps = product.OrderDetailTmps,
+                    Price = product.Price,
+                    ProductId = product.ProductId,
+                    Remarks = product.Remarks,
+                    Stock = product.Stock,
+                    Tax = product.Tax,
+                    TaxId = product.TaxId
+                });
+
+            }
+        }
         #endregion
 
     }
