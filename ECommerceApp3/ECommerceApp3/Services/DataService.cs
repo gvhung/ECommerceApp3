@@ -75,5 +75,98 @@ namespace ECommerceApp3.Services
                 Result = user
             };
         }
+
+        public void SaveProducts(List<Product> products)
+        {
+            using (var da = new DataAccess())
+            {
+                var oldProducts = da.GetList<Product>(false);
+                foreach (var product in oldProducts)
+                {
+                    da.Delete(product);
+                }
+                foreach (var product in products)
+                {
+                    da.Insert(product);
+                }
+            }
+        }
+
+        public List<Product> GetProducts(string filter)
+        {
+            try
+            {
+                using (var da = new DataAccess())
+                {
+                    return da.GetList<Product>(true)
+                        .Where(p => p.Description.ToUpper().Contains(filter.ToUpper()))
+                        .OrderBy(p => p.Description).ToList();
+                }
+            }
+            catch (Exception Ex)
+            {
+                return new List<Product>();
+            }
+        }
+
+        public List<Product> Getproducts()
+        {
+            try
+            {
+                using (var da = new DataAccess())
+                {
+                    return da.GetList<Product>(true).OrderBy(p => p.Description).ToList();
+                }
+            }
+            catch (Exception)
+            {
+                return new List<Product>();
+            }
+        }
+
+        public Response Login(string userEmail, string password)
+        {
+            try
+            {
+                using (var da = new DataAccess())
+                {
+                    var user = da.First<User>(true);
+                    if (user == null)
+                    {
+                        return new Response
+                        {
+                            IsSucess = false,
+                            Message = "Não há conexão com Internet e não existe um usuário previamente cadastrado!"
+                        };
+                    }
+
+                    if (user.UserName.ToUpper() == userEmail.ToUpper() && user.Password == password)
+                    {
+                        return new Response
+                        {
+                            IsSucess = true,
+                            Message = "Login OK!",
+                            Result = user
+                        };
+                    }
+                    else
+                    {
+                        return new Response
+                        {
+                            IsSucess = false,
+                            Message = "Usuário e/ou Senha incorretos!"
+                        };
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                return new Response
+                {
+                    IsSucess = false,
+                    Message = ex.Message
+                };
+            }
+        }
     }
 }

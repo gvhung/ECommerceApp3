@@ -19,6 +19,7 @@ namespace ECommerceApp3.ViewModels
         private ApiService apiService;
         private bool isRunning;
         private DataService dataService;
+        private NetService netService;
 
         #endregion
 
@@ -35,7 +36,7 @@ namespace ECommerceApp3.ViewModels
             dialogService = new DialogService();
             apiService = new ApiService();
             dataService = new DataService();
-
+            netService = new NetService();
             IsRemembered = true;
         }
         #endregion
@@ -87,7 +88,16 @@ namespace ECommerceApp3.ViewModels
                 return;
             }
             IsRunning = true;
-            var response = await apiService.Login(User, Password);
+            var response = new Response();
+            if (netService.IsConnected())
+            {
+                response = await apiService.Login(User, Password);
+            }
+            else
+            {
+                response = dataService.Login(User, Password);
+            }
+
             IsRunning = false;
 
             if (!response.IsSucess)

@@ -1,19 +1,27 @@
 ﻿
 
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Windows.Input;
 using ECommerceApp3.Models;
 using ECommerceApp3.Services;
+using GalaSoft.MvvmLight.Command;
+using System.ComponentModel;
 
 namespace ECommerceApp3.ViewModels
 {
-    public class MainViewModel
+    public class MainViewModel : INotifyPropertyChanged
     {
         #region Atributos
 
         private DataService dataService;
 
         private ApiService apiService;
+
+        private NetService netService;
+
+        private string filter;
         #endregion
 
         #region Propriedades
@@ -25,6 +33,29 @@ namespace ECommerceApp3.ViewModels
         public LoginViewModel NewLogin { get; set; }
 
         public UserViewModel UserLoged { get; set; }
+
+        public string Filter
+        {
+            set
+            {
+                if (filter != value)
+                {
+                    filter = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Filter"));
+                    if (string.IsNullOrEmpty(filter))
+                    {
+                        LoadLocalProducts();
+                    }
+                }
+            }
+            get
+            {
+                return filter;
+
+            }
+        }
+
+
         #endregion
 
         #region Construtores
@@ -44,6 +75,7 @@ namespace ECommerceApp3.ViewModels
             //Instance services
             dataService = new DataService();
             apiService = new ApiService();
+            netService = new NetService();
 
             //Load data
             LoadMenu();
@@ -59,6 +91,8 @@ namespace ECommerceApp3.ViewModels
 
         private static MainViewModel instance;
 
+
+
         public static MainViewModel GetInstance()
         {
             if (instance == null)
@@ -71,6 +105,43 @@ namespace ECommerceApp3.ViewModels
 
         #endregion
 
+        #region Commands
+        public ICommand SearchProductCommand { get { return new RelayCommand(SearchProduct); } }
+
+
+        #endregion
+
+        #region events
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        private void SearchProduct()
+        {
+            var products = dataService.GetProducts(Filter);
+
+            Products.Clear();
+            foreach (var product in products)
+            {
+                Products.Add(new ProductItemViewModel
+                {
+                    BarCode = product.BarCode,
+                    Category = product.Category,
+                    CategoryId = product.CategoryId,
+                    Company = product.Company,
+                    CompanyId = product.CompanyId,
+                    Description = product.Description,
+                    Image = product.Image,
+                    Inventories = product.Inventories,
+                    Price = product.Price,
+                    ProductId = product.ProductId,
+                    Remarks = product.Remarks,
+                    Stock = product.Stock,
+                    Tax = product.Tax,
+                    TaxId = product.TaxId,
+                });
+            }
+
+        }
+        #endregion
         #region Metodos
 
         public void LoadUser(User user)
@@ -153,8 +224,28 @@ namespace ECommerceApp3.ViewModels
 
         private async void LoadProducts()
         {
-            var products = await apiService.GetProducts();
+            var products = new List<Product>();
+            if (netService.IsConnected())
+            {
+                products = await apiService.GetProducts();
+                dataService.SaveProducts(products);
+            }
+            else
+            {
+                products = dataService.Getproducts();
+            }
+            ReloadProducts(products);
+        }
 
+        private  void LoadLocalProducts()
+        {
+            var products = dataService.Getproducts();
+            ReloadProducts(products);
+        }
+
+
+        private void ReloadProducts(List<Product> products)
+        {
             Products.Clear();
             foreach (var product in products)
             {
